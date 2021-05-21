@@ -1,11 +1,10 @@
 import { axiosWithAuth } from './axiosWithAuth';
 
 const fetchBubbles = () => {
-  return axiosWithAuth()
+  return axiosWithAuth
     .get()
     .then((res) => {
-      const { data } = res;
-      return data;
+      return res;
     })
     .catch((err) => console.log(err));
 };
