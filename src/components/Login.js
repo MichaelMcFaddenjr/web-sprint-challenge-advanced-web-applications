@@ -1,24 +1,65 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
-const Login = () => {
-  // make a post request to retrieve a token from the api
-  // when you have handled the token, navigate to the BubblePage route
+const Login = (props) => {
 
-  useEffect(()=>{
-    // make a post request to retrieve a token from the api
-    // when you have handled the token, navigate to the BubblePage route
+  const [form, setForm] = useState ({
+    username: 'Lambda School',
+    password: 'i<3Lambd4'
   });
-  
-  const error = "";
-  //replace with error state
+
+  const [error, setError] = useState('');
+
+  let history = useHistory();
+
+  const handleChange = (e) =>{
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const submitHandler = (e) =>{
+    e.preventDefault();
+    axios
+      .post('http://localhost:5000/api/login', form)
+      .then(res=>{
+        localStorage.setItem('token', res.data.payload);
+        history.push('/bubbles');
+        // console.log(res);
+      })
+      .catch(err=>{
+        console.log(err);
+        setError('Username or Password not valid')
+      })
+  };
 
   return (
     <div>
       <h1>Welcome to the Bubble App!</h1>
       <div data-testid="loginForm" className="login-form">
-        <h2>Build login form here</h2>
+        <form onSubmit={submitHandler}>
+          <label>Username:
+            <input
+              type='text'
+              name='username'
+              value={form.username}
+              onChange={handleChange}
+            />
+          </label>
+          <label>Password:
+            <input
+              type='password'
+              name='password'
+              value={form.password}
+              onChange={handleChange}
+            />
+          </label>
+          <button onSubmit={submitHandler}>Login</button>
+        </form>
+        {error ? <p>{error}</p> : null}
       </div>
-
       <p data-testid="errorMessage" className="error">{error}</p>
     </div>
   );

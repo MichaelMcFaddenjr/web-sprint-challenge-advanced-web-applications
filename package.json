@@ -9,6 +9,8 @@
     "@testing-library/react": "^10.4.8",
     "@testing-library/user-event": "^12.1.1",
     "axios": "^0.19.2",
+    "hest": "^1.0.5",
+    "jest": "^24.9.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "mutationobserver-shim": "^0.3.7",
     "react": "^16.12.0",
